@@ -40,37 +40,33 @@ Follow these steps to start practicing SQL using this repository:
 
 ## Folder Structure
 
-SQL-Learnings/
-│
-├── README.md
-├── LICENSE (optional)
-│
-├── Basics/
-│   ├── Data-Definition-Language.sql
-│   ├── Data-Manipulation.sql
-│   ├── DataTypes-Operators.sql
-│   ├── Auto-Increment.sql
-│   ├── Privileges-and-Passwords.sql
-│
-├── CRUD/
-│   ├── Crud-Operations.sql
-│   ├── Simple-Crud-Operation.sql
-│
-├── Advanced/
-│   ├── Cursor.sql
-│   ├── Joins.sql
-│   ├── Functions.sql
-│   ├── Store-Procedure.sql
-│   ├── Triggers.sql
-│   ├── Transaction-Control.sql
-│   ├── Error-Handling.sql
-│
-├── Concepts/
-│   ├── Data-Controls.sql
-│   ├── Keys-Constraints-and-Indexes.sql
-│
-├── Reference/
-│   └── SQL-Master-Notes(DDL,DQL,DML).sql
+- `Basics/` — Basic SQL concepts and syntax  
+  - Data-Definition-Language.sql  
+  - Data-Manipulation.sql  
+  - DataTypes-Operators.sql  
+  - Auto-Increment.sql  
+  - Privileges-and-Passwords.sql  
+
+- `CRUD/` — Simple and advanced CRUD operations  
+  - Crud-Operations.sql  
+  - Simple-Crud-Operation.sql  
+
+- `Advanced/` — Advanced topics and concepts  
+  - Cursor.sql  
+  - Joins.sql  
+  - Functions.sql  
+  - Store-Procedure.sql  
+  - Triggers.sql  
+  - Transaction-Control.sql  
+  - Error-Handling.sql  
+
+- `Concepts/` — Important SQL concepts and constraints  
+  - Data-Controls.sql  
+  - Keys-Constraints-and-Indexes.sql  
+
+- `Reference/` — Master notes covering DDL, DQL, and DML  
+  - SQL-Master-Notes(DDL,DQL,DML).sql  
+
 
 ---
 
