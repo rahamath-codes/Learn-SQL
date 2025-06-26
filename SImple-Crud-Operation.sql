@@ -24,8 +24,8 @@
 -- salary INT
 -- );
 -- INSERT INTO employee (eid, ename, email, erole, salary) VALUES
--- (201, 'Rahmath', 'rahmath@example.com', 'Developer', 60000),
--- (202, 'Jamee', 'jamee@example.com', 'Tester', 52000),
+-- (201, 'Jesse', 'jesse@example.com', 'Developer', 60000),
+-- (202, 'Jane', 'jane@example.com', 'Tester', 52000),
 -- (203, 'Suresh', 'suresh@example.com', 'Manager', 75000),
 -- (204, 'Benazir', 'benazir@example.com', 'HR', 55000),
 -- (205, 'Vignesh', 'vignesh@example.com', 'Developer', 61000),
