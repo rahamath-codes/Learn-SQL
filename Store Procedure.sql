@@ -1,0 +1,248 @@
+-- use practice;
+-- A stored procedure in SQL is a precompiled collection of one or more SQL statements that can be executed as a unit.
+-- It helps in modularizing code, improving performance, and enhancing security.
+-- Stored procedures are stored in the database and can be reused multiple times by calling them.
+-- Reduces netword traffic, Centrailise Bussiness Logic[If else,loops], Secure, Code Resusablility
+-- How to Create a Stored Procedure :
+-- DELIMITER //
+-- CREATE PROCEDURE getEmp()
+-- BEGIN 
+--     SELECT * FROM emp;
+-- END;
+-- //
+-- | Type             | Declared Using    | Scope                 |
+-- | ---------------- | ----------------- | --------------------- |
+-- | Session Variable | `@varname`        | Whole session         |
+-- | Local Variable   | `DECLARE varname` | Inside procedure only |
+-- DELIMITER ;
+-- CALL getEmp();
+
+-- How to delete a procedure? Drop procedure if exists procedure-name.
+-- DROP procedure getEmp;
+
+-- Variable
+-- DELIMITER //
+-- CREATE PROCEDURE empCount()
+-- BEGIN 
+-- 	declare count int default 0	;
+--     select count(id) into count from emp;
+--     select count;
+-- END;
+-- //
+-- CALL empCount;
+-- Stored Procedure using Parameter [IN,Out,INout]
+-- | Keyword | Meaning                        | Used For                           |
+-- | ------- | ------------------------------ | ---------------------------------- |
+-- | IN      | Just send value into procedure | Filters, conditions                |
+-- | OUT     | Just get value from procedure  | Results, counts                    |
+-- | INOUT   | Send and get value back        | Counters, transformations, updates |
+-- IN Parameter :
+-- CREATE PROCEDURE empCount(
+-- IN jd varchar(20)
+-- )
+-- BEGIN 
+-- 	   declare count int default 0	;
+--     select count(id) into count 
+--     from emp where designation = jd;
+--     select count;
+-- END;
+-- //
+-- CALL empCount('DEVELOPER');
+
+-- Out Parameter:
+-- DELIMITER //
+--  CREATE PROCEDURE empCount(
+--  IN jd varchar(20),
+--  OUT total INT
+--  )
+--  BEGIN 
+-- 	select count(id) 
+--     into total 
+--     from emp
+--       where designation = jd;
+-- 	
+-- END;
+-- //
+-- CALL EMPCOUNT('DEVELOPER',@total);
+-- select @total;
+-- INOUT
+-- DELIMITER //
+-- CREATE PROCEDURE COUNTER(
+-- INOUT COUNTER INT, 
+-- IN INCR INT)
+-- BEGIN 
+--   SET COUNTER = COUNTER + INCR;
+-- END;
+-- //	
+-- DELIMITER ;
+-- SET @COUN = 5;
+-- CALL COUNTER(@COUN,2);
+-- SELECT @COUN;    
+
+-- CONTROL STATEMENT IN SQL
+-- DELIMITER //
+-- CREATE PROCEDURE empState(IN ID INT)
+-- BEGIN 
+-- 	IF ID=1 OR ID =2 THEN SELECT 'TAMIL NADU' AS STATE;
+-- 	ELSEIF ID%3 = 0 THEN SELECT 'KERALA' AS STATE;
+--     ELSE SELECT 'KOOMAPATTY' AS STATE;
+--     END IF;
+-- END;//
+-- DELIMITER ;
+-- SET @BID = 1;
+-- CALL EMPSTATE(@BID);
+-- SWITCH CASE
+-- DELIMITER //
+-- CREATE PROCEDURE empNative(IN ID INT)
+-- BEGIN 
+-- 	CASE ID 
+--        WHEN 4 THEN  SELECT'DELHI';
+--        WHEN 3 THEN SELECT 'MAHARASTRA';
+--        ELSE
+-- 			SELECT 'TAMIL NADU';
+-- 		END CASE;
+-- END;//
+-- DELIMITER ;
+-- SET @BID = 1;
+-- CALL EMPSTATE(@BID);
+
+-- LOOPING STATEMENTS
+-- DELIMITER //
+-- CREATE PROCEDURE LOOPDEMO()
+-- BEGIN
+-- DECLARE I INT;
+-- SET I = 10;
+-- loopliteral: LOOP
+-- 	IF I>10 THEN LEAVE loopliteral;
+--     end if;
+--     select i;
+--     set i = i+1;
+-- end loop;
+-- END;
+-- //
+-- delimiter ;
+-- call loopdemo;
+
+-- DELIMITER //
+-- CREATE PROCEDURE LOOPDEMO2()
+-- BEGIN
+-- DECLARE I INT;
+-- declare str varchar(50);
+-- SET I = 10;
+-- set str = '';
+-- 	while i<=10 do
+--     set str = concat(str,i,' ');
+--     set i = i+1;
+--     end while;
+-- 	select str;
+-- END//
+-- delimiter ;
+-- call loopdemo2;
+-- Repeat 
+-- DELIMITER //
+-- CREATE PROCEDURE LOOPDEMO3()
+-- BEGIN
+-- DECLARE I INT;
+-- declare str varchar(50);
+-- SET I = 1;
+-- set str = '';
+-- 	repeat
+--     set str = concat(str,i,' ');
+--     set i = i+1;
+--     until i>10
+--     end repeat;
+-- 	select str;
+-- END//
+-- delimiter ;
+-- call loopdemo3;
+-- delimiter //
+-- create function getAddress(id int)
+-- returns varchar(50)
+-- deterministic
+-- In MySQL, when you create a function, you tell the database whether the function will always return the same result for the same input.
+-- begin
+-- declare fulladd varchar(50);
+-- select concat(location,' ',bid) into fulladd
+-- from branch
+-- where bid = id;
+-- return fulladd;
+-- end//
+-- delimiter ;
+-- select getAddress(1);
+-- DELIMITER //
+-- CREATE PROCEDURE ADDUSER(IN ID INT, IN NAME VARCHAR(20),IN LOC VARCHAR(20))
+-- BEGIN
+-- 	declare continue handler for 1062
+-- 		begin
+-- 			select concat('duplicate value ',id,' cannot be inserted') as message;
+-- 		end;
+-- 	INSERT INTO BRANCH VALUES(ID,NAME,LOC);
+--     
+--     select * from branch;
+-- END//
+-- delimiter ;
+-- CALL ADDUSER(6,'INFINE 5','MADURAI');
+-- Named condition for handler
+-- DELIMITER //
+-- CREATE PROCEDURE ADDUSER(IN ID INT, IN NAME VARCHAR(20),IN LOC VARCHAR(20))
+-- BEGIN
+-- declare duplicatevalue condition for 1062; -- name condition
+-- 	declare continue handler for duplicatevalue  
+-- 		begin
+-- 			select concat('duplicate value ',id,' cannot be inserted') as message;
+-- 		end;
+-- 	INSERT INTO BRANCH VALUES(ID,NAME,LOC);
+--     
+--     select * from branch;
+-- END//
+-- delimiter ;
+-- CALL ADDUSER(6,'INFINE 5','MADURAI');
+
+
+
+-- | Keyword    | Use                                                              |
+-- | ---------- | ---------------------------------------------------------------- |
+-- | `SIGNAL`   | Manually throw an error with message                             |
+-- | `RESIGNAL` | Inside error handler, rethrow the error or customize the message |
+
+
+-- Signal - is used to throw an error manually inside your procedure.
+-- DELIMITER //
+
+-- CREATE PROCEDURE checkAge(IN age INT)
+-- BEGIN
+--     IF age < 18 THEN
+--         SIGNAL SQLSTATE '45000'
+--         SET MESSAGE_TEXT = 'Underage - Not Allowed';
+--     ELSE
+--         SELECT 'Access Granted' AS status;
+--     END IF;
+-- END;
+-- //
+-- DELIMITER ;
+-- CALL checkAge(16);
+
+
+-- RESIGNAL is used inside an error handler to rethrow the error or give a custom message after catching it.
+-- DELIMITER //
+-- CREATE PROCEDURE testInsert()
+-- BEGIN
+--     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+--     BEGIN
+--         RESIGNAL SET MESSAGE_TEXT = 'Something went wrong during insert';
+--     END;
+
+--     -- Trying to insert duplicate ID (e.g., 1 already exists)
+--     INSERT INTO branch VALUES (1, 'DUPLICATE', 'LOC');
+-- END;
+-- //
+-- DELIMITER ;
+-- CALL testInsert();
+
+
+
+
+
+
+
+
